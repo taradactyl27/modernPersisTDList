@@ -20,11 +20,12 @@ class LoginBox extends Component {
       const user = {
         username: this.state.username,
       }
-      Axios.post(URL,user).then((res) => {
+      Axios.post('https://stormy-ocean-79116.herokuapp.com/https://hunter-todo-api.herokuapp.com/auth',user).then((res) => {
        // console.log(res.status);
         if (res.status === 200){
-        //  console.log(res);
-          this.props.handler(res.data);
+          console.log(res.data);
+          let returnJson = {"token":res.data.token,"username":this.state.username};
+          this.props.handler(returnJson);
         }
       }).catch((e) => {
         console.log(e);
