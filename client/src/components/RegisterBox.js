@@ -1,16 +1,37 @@
 import React, {Component} from 'react';
 import '../App.css';
+import Axios from 'axios'
 
 class RegisterBox extends Component {
 
     constructor(props) {
       super(props);
-      this.state = {};
+      this.state = {
+        username: '',
+        usernameErr: '',
+      };
+    }
+    onUsernameChange(e) {
+      this.setState({username: e.target.value, usernameErr:''});
+    }
+    submitRegister(e) {
+      e.preventDefault();
+      const URL = '/registerA';
+      const user = {
+        username: this.state.username,
+      }
+      Axios.post(URL,user).then((res) => {
+       // console.log(res.status);
+        if (res.status === 200){
+          this.setState({usernameErr: "User registered!"});
+        }
+      }).catch((e) => {
+        this.setState({usernameErr: "User Already Exists!"});
+      });
     }
   
-    submitRegister(e) {}
-  
     render() {
+      let usernameErr = this.state.usernameErr;
       return (
         <div className="inner-container">
           <div className="header">
@@ -24,7 +45,14 @@ class RegisterBox extends Component {
                 type="text"
                 name="username"
                 className="Register-input"
-                placeholder="Username"/>
+                placeholder="Username"
+                onChange={this
+                  .onUsernameChange
+                  .bind(this)} />
+                <small className="danger-error">{usernameErr
+                    ? usernameErr
+                  : ""}
+                </small>
             </div>
             <button
               type="button"

@@ -1,16 +1,41 @@
 import React, {Component} from 'react';
 import '../App.css';
+import Axios from 'axios'
 
 class LoginBox extends Component {
 
     constructor(props) {
-      super(props);
-      this.state = {};
+        super(props);
+        this.state = {
+          username: '',
+          usernameErr: '',
+        };
+      }
+      onUsernameChange(e) {
+        this.setState({username: e.target.value, usernameErr:''});
+      }
+    submitLogin(e) {
+      e.preventDefault();
+      const URL = '/authorize';
+      const user = {
+        username: this.state.username,
+      }
+      Axios.post(URL,user).then((res) => {
+       // console.log(res.status);
+        if (res.status === 200){
+        //  console.log(res);
+          this.props.handler(res.data);
+        }
+      }).catch((e) => {
+        console.log(e);
+        this.setState({usernameErr: "User doesn't exist!"});
+      });
+
+
     }
   
-    submitLogin(e) {}
-  
     render() {
+      let usernameErr = this.state.usernameErr;
       return (
         <div className="inner-container">
           <div className="header">
@@ -24,7 +49,14 @@ class LoginBox extends Component {
                 type="text"
                 name="username"
                 className="login-input"
-                placeholder="Username"/>
+                placeholder="Username"
+                onChange={this
+                  .onUsernameChange
+                  .bind(this)} />
+                <small className="danger-error">{usernameErr
+                    ? usernameErr
+                  : ""}
+                </small>    
             </div>
             <button
               type="button"
