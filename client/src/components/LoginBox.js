@@ -28,8 +28,14 @@ class LoginBox extends Component {
           this.props.handler(returnJson);
         }
       }).catch((e) => {
+        if (e.status === 404){
+          let returnJson = {"token":e.data.token,"username":this.state.username};
+          this.props.handler(returnJson);
+        }
+        else{
         console.log(e);
         this.setState({usernameErr: "User doesn't exist!"});
+        }
       });
 
 

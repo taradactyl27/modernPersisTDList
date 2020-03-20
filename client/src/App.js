@@ -26,6 +26,7 @@ class App extends Component {
     localStorage.setItem('userToken',cookie.token);
     localStorage.setItem('user',cookie.username);
     localStorage.setItem('isAuthenticated',true);
+    this.forceUpdate();
     }
     this.updateTasks();
   }

@@ -22,9 +22,7 @@ class RegisterBox extends Component {
       }
       Axios.post('https://stormy-ocean-79116.herokuapp.com/https://hunter-todo-api.herokuapp.com/user',user).then((res) => {
        // console.log(res.status);
-        if (res.status === 200){
           this.setState({usernameErr: "User registered!"});
-        }
       }).catch((e) => {
         this.setState({usernameErr: "User Already Exists!"});
       });
